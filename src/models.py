@@ -1,6 +1,6 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, Enum
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
@@ -22,32 +22,32 @@ class Follower(Base):
     # Here we define columns for the table follower.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    user_from_id = Column(Integer, ForeignKey('userid'))
-    user_to_id = Column(Integer)
+    user_from_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_to_id = Column(Integer, nullable=False)
 
 class Post(Base):
     __tablename__ = 'post'
     # Here we define columns for the table post.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('userid'))
+    user_id = Column(Integer, ForeignKey('user.id'))
 
 class Comment(Base):
     __tablename__ = 'comment'
     # Here we define columns for the table post.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    author_id = Column(Integer, ForeignKey('userid'))
-    post_id = Column(Integer, ForeignKey('postid'))
+    author_id = Column(Integer, ForeignKey('user.id'))
+    post_id = Column(Integer, ForeignKey('post.id'))
 
 class Media(Base):
     __tablename__ = 'media'
     # Here we define columns for the table post.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-   
+    type = Column(Enum("picture", "video"), nullable=False)
     url = Column(String, nullable=False)
-    post_id = Column(Integer, ForeignKey('postid'))
+    post_id = Column(Integer, ForeignKey('post.id'))
 
     def to_dict(self):
         return {}
