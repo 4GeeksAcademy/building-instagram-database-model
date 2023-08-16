@@ -22,7 +22,7 @@ class Follower(Base):
     # Here we define columns for the table follower.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    user_from_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_from_id = Column(Integer, ForeignKey('userid'), nullable=False)
     user_to_id = Column(Integer, nullable=False)
 
 class Post(Base):
@@ -30,15 +30,15 @@ class Post(Base):
     # Here we define columns for the table post.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('userid'))
 
 class Comment(Base):
     __tablename__ = 'comment'
     # Here we define columns for the table post.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    author_id = Column(Integer, ForeignKey('user.id'))
-    post_id = Column(Integer, ForeignKey('post.id'))
+    author_id = Column(Integer, ForeignKey('userid'))
+    post_id = Column(Integer, ForeignKey('postid'))
 
 class Media(Base):
     __tablename__ = 'media'
@@ -47,7 +47,7 @@ class Media(Base):
     id = Column(Integer, primary_key=True)
     type = Column(Enum("picture", "video"), nullable=False)
     url = Column(String, nullable=False)
-    post_id = Column(Integer, ForeignKey('post.id'))
+    post_id = Column(Integer, ForeignKey('postid'))
 
     def to_dict(self):
         return {}
